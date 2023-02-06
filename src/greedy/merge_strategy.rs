@@ -76,7 +76,9 @@ where
     ) -> (u32, u32) {
         // Greedily search for the biggest visible quad where all merge values are the same.
         let quad_value = voxels.get_unchecked(min_index as usize).merge_value();
-        let quad_neighbour_value = voxels.get_unchecked((min_index + face_strides.visibility_offset) as usize).merge_value_facing_neighbour();
+        let quad_neighbour_value = voxels
+            .get_unchecked(min_index.wrapping_add(face_strides.visibility_offset) as usize)
+            .merge_value_facing_neighbour();
 
         // Start by finding the widest quad in the U direction.
         let mut row_start_stride = min_index;
